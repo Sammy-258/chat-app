@@ -1,4 +1,5 @@
 <?php
+    session_start();
     require_once("connect.php");
 
    
@@ -12,6 +13,9 @@
         $result = mysqli_query($conn, $stn);
 
         if(mysqli_num_rows($result) > 0){
+            $sql = "UPDATE `user` SET `user_login_status`='Login' WHERE `email` = '$user_email'";
+            $result = mysqli_query($conn, $sql);
+            
             $row = mysqli_fetch_assoc($result);
             $_SESSION["user_data"] = $row;
             header("location: chatroom.php");

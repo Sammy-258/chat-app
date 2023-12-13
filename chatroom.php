@@ -1,5 +1,11 @@
 <?php
+    session_start();
     require_once("connect.php");
+    if(!isset($_SESSION["user_data"])){
+        header("location: login.php");
+    }
+
+    $user_data = $_SESSION["user_data"];
 
    
 ?>
@@ -24,18 +30,30 @@
                 
             </div>
             <div class="col-lg-4">
-                <?php
-                    foreach($_SESSION["user_data"] as $key => $value){
-                        ?>
-                            <div class="mt-3 text-center">
-                                <img src="<?=$value["user_profile"]?>" width="150" class="img-fluid rounded-circle img-thumbnail">
-                                <h3 class="mt-2"><?=$value["user_name"]?></h3>
-                                <a href="profile.php" class="btn btn-secondary mt-2 mb-2">Edit</a>
-                            </div>
+               
+                
+                    <div class="mt-3 text-center">
                         <?php
-                    }
-                ?>
+                            if (is_string($user_data["user_profile"]) && strlen($user_data["user_profile"]) === 1) {
+                                ?>
+                                    <div class="text-center m-auto" style="width:50px;height:50px;background-color:blue;">
+                                        <p class="fw-bold fs-2 text-light"><?=$user_data["user_profile"]?></p>
+                                    </div>
+                                <?php
+                            }else{
+                                ?>
+                                    <img src="<?= $user_data["user_profile"] ?>" width="150" class="img-fluid rounded-circle img-thumbnail">
+                                <?php
+                            }
+                        ?>
+                        
+                        <h3 class="mt-2"><?= $user_data["user_name"] ?></h3>
+                        <a href="profile.php" class="btn btn-secondary mt-2 mb-2">Edit</a>
+                        <a href="logout.php" class="btn btn-danger mt-2 mb-2">Logout</a>
+                    </div>
+                
             </div>
+
         </div>
     </div>
 
